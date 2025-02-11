@@ -23,38 +23,41 @@ typedef struct			s_data t_data;
 //Fork structure
 struct s_fork
 {
-	t_mutex				fork;
-	int					fork_id;
+	t_mutex		fork;
+	int			fork_id;
 };
 
 //Philosopher structure
 struct s_philo
 {
-	int					index;
-	long				last_meal_time;
-	long				meal_count;
-	bool				is_full;
-	t_fork				*left_fork;
-	t_fork				*right_fork;
-	pthread_t			thread_id;
-	t_data				*data;
+	int			index;
+	long		last_meal_time;
+	long		meal_count;
+	bool		is_full;
+	t_fork		*left_fork;
+	t_fork		*right_fork;
+	pthread_t	thread_id;
+	t_data		*data;
 
 };
 
 //Data table structure to hold important info
 struct s_data
 {
-	long				philo_nbr;
-	long				time_to_die;
-	long				time_to_eat;
-	long				time_to_sleep;
-	long				limit_nbr_meals;
-	long				start_time;
-	bool				end_simulation; //true either by philo death or by meal limit
-	t_philo				*philos;
-	t_fork				*forks;
+	long		philo_nbr;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		limit_nbr_meals;
+	long		start_time;
+	bool		end_simulation; //true either by philo death or by meal limit
+	t_philo		*philos;
+	t_fork		*forks;
 };
 
 
 //FUNCTIONS
-int	parse_input(int argc, char **argv);
+int				is_valid_input(char **argv);
+long int		ft_atol(char *str);
+void			error_n_exit(int msg);
+void			init_table(int argc, char **argv, t_data *data);

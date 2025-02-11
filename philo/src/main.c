@@ -3,7 +3,9 @@
 int main(int argc, char **argv)
 {
 	t_data	*data;
-	if (argc != 5 && argc != 6)
+
+	data = malloc(sizeof(t_data));
+	if (argc < 5 || argc > 6)
 	{
 		// printf("Error: Wrong number of arguments\n");
 		error_n_exit(1);
@@ -11,9 +13,9 @@ int main(int argc, char **argv)
 	}
 	else
 	{
-		init_table(argc, argv, data);
-		if (parse_input(argc, argv))
+		if (is_valid_input(argv))
 			error_n_exit(2);
+		init_table(argc, argv, data);
 		printf(GRN"RUN PHILO\n"RST);
 		// init_philo(argc, argv);
 	}
