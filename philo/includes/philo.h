@@ -48,7 +48,7 @@ struct s_data
 	long		time_to_die;
 	long		time_to_eat;
 	long		time_to_sleep;
-	long		limit_nbr_meals;
+	long		max_meals;
 	long		start_time;
 	bool		end_simulation; //true either by philo death or by meal limit
 	t_philo		*philos;

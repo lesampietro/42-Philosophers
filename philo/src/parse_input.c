@@ -28,7 +28,7 @@ long int	ft_atol(char *str)
 	}
 	while (ft_isdigit(*str))
 	{
-		res = res * 10 + *str - '0';
+		res = (res * 10) + (*str - '0');
 		str++;
 	}
 	return (res * sign);

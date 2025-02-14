@@ -7,6 +7,7 @@ BIN= ./bin/
 SRC_D= ./philo/src/
 SRC=	main.c \
 		parse_input.c \
+		init_philo.c \
 		utils.c
 
 SRC:= $(addprefix $(SRC_D), $(SRC))
