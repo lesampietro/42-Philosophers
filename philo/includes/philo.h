@@ -54,10 +54,16 @@ struct s_data
 	t_fork		*forks;
 };
 
-
-//FUNCTIONS
+//PARSE FUNCTIONS
 int				is_valid_input(char **argv);
 long int		ft_atol(char *str);
-void			error_n_exit(char *msg, int msg_type);
+
+//INIT FUNCTIONS
 void			init_table(int argc, char **argv, t_data *data);
 void			init_philo(t_data *data);
+
+//TIME UTILITY FUNCTIONS
+
+
+//GENERAL UTILITY FUNCTIONS
+void			error_n_exit(char *msg, int msg_type);
