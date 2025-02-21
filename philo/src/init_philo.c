@@ -53,6 +53,12 @@ void	init_philo(t_data *data)
 {
 	struct	timeval tv;
 
+struct timeval	tv;
+
+	if(pthread_mutex_init(&data->meal_mutex, NULL) \
+		|| pthread_mutex_init(&data->end_mutex, NULL) \
+		|| pthread_mutex_init(&data->print_mutex, NULL))
+		error_n_exit("Error: Mutex protection init failed\n", 0);
 	init_forks(data);
 	init_philosophers(data);
 	assign_forks_to_philos(data);

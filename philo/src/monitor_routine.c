@@ -1,5 +1,22 @@
 #include "../includes/philo.h"
 
+bool	is_simulation_end(t_data *data)
+{
+	bool is_end;
+
+	pthread_mutex_lock(&data->end_mutex);
+	is_end = data->end_simulation;
+	pthread_mutex_unlock(&data->end_mutex);
+	return (is_end);
+}
+
+void	check_simulation_end(t_data *data)
+{
+	pthread_mutex_lock(&data->end_mutex);
+	data->end_simulation = true;
+	pthread_mutex_unlock(&data->end_mutex);
+}
+
 static bool	is_philo_dead(t_philo *philo)
 {
 	long	time_since_meal;

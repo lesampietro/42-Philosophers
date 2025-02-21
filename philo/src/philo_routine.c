@@ -41,7 +41,7 @@ void	*philosopher_routine(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)arg;
+	philo = (t_philo *)arg; //just a type casting, because the argument passed is void pointer
 	if (philo->philo_id % 2)
 		precise_sleep(1000);
 	while (!philo->data->end_simulation && !philo->is_full)
@@ -53,7 +53,7 @@ void	*philosopher_routine(void *arg)
 	return (NULL);
 }
 
-void	init_simulation(t_data *data)
+void	start_dinner(t_data *data)
 {
 	int			i;
 	pthread_t	monitor_id;

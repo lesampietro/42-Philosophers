@@ -39,5 +39,6 @@ int	main(int argc, char **argv)
 		init_table(argc, argv, data);
 		init_philo(data);
 		init_simulation(data);
+		start_dinner(data);
 	}
 }

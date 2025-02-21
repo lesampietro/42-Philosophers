@@ -15,3 +15,10 @@ void	error_n_exit(char *msg, int msg_type)
 	exit(1);
 }
 
+void	safe_print(t_data *data, int philo_id, char *msg)
+{
+	pthread_mutex_lock(&data->print_mutex);
+	if (!is_simulation_ended(data))
+		printf("%ld %d %s\n", get_elapsed_time(data) / 1000, philo_id, msg);
+	pthread_mutex_unlock(&data->print_mutex);
+}

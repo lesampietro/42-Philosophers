@@ -50,6 +50,9 @@ struct s_data
 	long		max_meals;
 	long		start_time;
 	bool		end_simulation; //true either by philo death or by meal limit
+	t_mutex		print_mutex; // ensures atomic printing
+	t_mutex		end_mutex; //protects end_simulation flag
+	t_mutex		meal_mutex; // protects meal-related variables
 	t_philo		*philos;
 	t_fork		*forks;
 };
@@ -64,6 +67,7 @@ void			init_philo(t_data *data);
 void			init_simulation(t_data *data);
 void			*philosopher_routine(void *arg);
 void			*monitor_routine(void *arg);
+void			start_dinner(t_data *data);
 
 //TIME UTILITY FUNCTIONS
 long			get_current_time(void);
