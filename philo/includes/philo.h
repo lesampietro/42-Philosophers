@@ -63,6 +63,7 @@ void			init_table(int argc, char **argv, t_data *data);
 void			init_philo(t_data *data);
 void			init_simulation(t_data *data);
 void			*philosopher_routine(void *arg);
+void			*monitor_routine(void *arg);
 
 //TIME UTILITY FUNCTIONS
 long			get_current_time(void);

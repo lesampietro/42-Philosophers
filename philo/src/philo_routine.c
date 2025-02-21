@@ -55,15 +55,20 @@ void	*philosopher_routine(void *arg)
 
 void	init_simulation(t_data *data)
 {
-	int	i;
+	int			i;
+	pthread_t	monitor_id;
 
 	i = 0;
+	if (pthread_create(&monitor_id, NULL, monitor_routine, data))
+		error_n_exit("Error: Thread creation failed\n", 0);
 	while (i < data->philo_nbr)
 	{
-		if (pthread_create(&data->philos[i].thread_id, NULL, philosopher_routine, &data->philos[i]))
+		if (pthread_create(&data->philos[i].thread_id, NULL, philosopher_routine, &data->philos[i])) //last parameter passes the address of the philosopher
 			error_n_exit("Error: Thread creation failed\n", 0);
 		i++;
 	}
+	if (pthread_join(monitor_id, NULL))
+		error_n_exit("Error: Thread joining failed\n", 0);
 	i = 0;
 	while (i < data->philo_nbr)
 	{

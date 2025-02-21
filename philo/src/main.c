@@ -38,5 +38,6 @@ int	main(int argc, char **argv)
 			error_n_exit("Error: Invalid arguments. All inputs must be in the positive integer scope\n", 0);
 		init_table(argc, argv, data);
 		init_philo(data);
+		init_simulation(data);
 	}
 }

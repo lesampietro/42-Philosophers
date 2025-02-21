@@ -6,9 +6,10 @@ INCLUDES= -I philo/includes
 BIN= ./bin/
 SRC_D= ./philo/src/
 SRC=	main.c \
-		parse_input.c \
-		init_philo.c \
 		get_time.c \
+		init_philo.c \
+		monitor_routine.c \
+		parse_input.c \
 		philo_routine.c \
 		utils.c
 
