@@ -19,7 +19,7 @@ static void	init_philosophers(t_data *data)
 
 	data->philos = malloc(sizeof(t_philo) * data->philo_nbr);
 	if (!data->philos)
-		error_n_exit(-1);
+		error_n_exit(NULL, -1);
 	i = 0;
 	while (i < data->philo_nbr)
 	{
@@ -38,12 +38,12 @@ static void	init_forks(t_data *data)
 
 	data->forks = malloc(sizeof(t_fork) * data->philo_nbr);
 	if (!data->forks)
-		error_n_exit(-1);
+		error_n_exit(NULL, -1);
 	i = 0;
 	while (i < data->philo_nbr)
 	{
 		if (pthread_mutex_init(&data->forks[i].fork, NULL))
-			error_n_exit(-1);
+			error_n_exit(NULL, -1);
 		data->forks[i].fork_id = i;
 		i++;
 	}
@@ -57,6 +57,6 @@ void	init_philo(t_data *data)
 	init_philosophers(data);
 	assign_forks_to_philos(data);
 	if (gettimeofday(&tv, NULL))
-		error_n_exit(-1);
+		error_n_exit(NULL, -1);
 	data->start_time = tv.tv_sec * 1e6 + tv.tv_usec;
 }

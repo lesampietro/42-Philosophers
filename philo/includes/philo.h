@@ -38,7 +38,6 @@ struct s_philo
 	t_fork		*right_fork;
 	pthread_t	thread_id;
 	t_data		*data;
-
 };
 
 //Data table structure to hold important info
@@ -59,6 +58,6 @@ struct s_data
 //FUNCTIONS
 int				is_valid_input(char **argv);
 long int		ft_atol(char *str);
-void			error_n_exit(int msg);
+void			error_n_exit(char *msg, int msg_type);
 void			init_table(int argc, char **argv, t_data *data);
 void			init_philo(t_data *data);
