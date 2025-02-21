@@ -57,6 +57,6 @@ void	init_philo(t_data *data)
 	init_philosophers(data);
 	assign_forks_to_philos(data);
 	if (gettimeofday(&tv, NULL))
-		error_n_exit("Error: gettimeofday() failed\n", 0);
+		error_n_exit("Error: not able to get start time\n", 0);
 	data->start_time = tv.tv_sec * 1e6 + tv.tv_usec;
 }

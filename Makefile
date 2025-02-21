@@ -8,6 +8,8 @@ SRC_D= ./philo/src/
 SRC=	main.c \
 		parse_input.c \
 		init_philo.c \
+		get_time.c \
+		philo_routine.c \
 		utils.c
 
 SRC:= $(addprefix $(SRC_D), $(SRC))

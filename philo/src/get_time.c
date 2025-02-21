@@ -5,7 +5,7 @@ long	get_current_time(void)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
-		error_n_exit(NULL, -1);
+		error_n_exit("Error: not able to get current time", 0);
 	return ((tv.tv_sec * 1e6) + tv.tv_usec);
 }
 

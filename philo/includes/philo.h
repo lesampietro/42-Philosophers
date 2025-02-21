@@ -58,12 +58,17 @@ struct s_data
 int				is_valid_input(char **argv);
 long int		ft_atol(char *str);
 
-//INIT FUNCTIONS
+//INIT and ROUTINE FUNCTIONS
 void			init_table(int argc, char **argv, t_data *data);
 void			init_philo(t_data *data);
+void			init_simulation(t_data *data);
+void			*philosopher_routine(void *arg);
 
 //TIME UTILITY FUNCTIONS
-
+long			get_current_time(void);
+long			get_elapsed_time(t_data *data);
+long			get_time_since_last_meal(t_philo *philo);
+void			precise_sleep(long duration);
 
 //GENERAL UTILITY FUNCTIONS
 void			error_n_exit(char *msg, int msg_type);
