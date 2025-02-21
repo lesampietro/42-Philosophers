@@ -1,6 +1,6 @@
 #include "../includes/philo.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data	*data;
 
@@ -16,7 +16,6 @@ int main(int argc, char **argv)
 		if (is_valid_input(argv))
 			error_n_exit(2);
 		init_table(argc, argv, data);
-		printf(GRN"RUN PHILO\n"RST);
-		init_philo(argc, argv);
+		init_philo(data);
 	}
 }

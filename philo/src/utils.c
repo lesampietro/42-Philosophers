@@ -25,9 +25,9 @@ void	init_table(int argc, char **argv, t_data *data)
 		error_n_exit(-1);
 	data->philo_nbr = ft_atol(argv[1]);
 	// data->time_to_die = ft_atol(argv[2]) * 1e3;
-	data->time_to_die = ft_atol(argv[2]);
-	data->time_to_eat = ft_atol(argv[3]);
-	data->time_to_sleep = ft_atol(argv[4]);
+	data->time_to_die = ft_atol(argv[2]) * 1e3;
+	data->time_to_eat = ft_atol(argv[3]) * 1e3;
+	data->time_to_sleep = ft_atol(argv[4]) * 1e3;
 	if (data->time_to_die < 6e4 || data->time_to_eat < 6e4 \
 		|| data->time_to_sleep < 6e4)
 		error_n_exit(3);

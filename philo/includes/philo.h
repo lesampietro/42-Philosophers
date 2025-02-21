@@ -30,7 +30,7 @@ struct s_fork
 //Philosopher structure
 struct s_philo
 {
-	int			index;
+	int			philo_id;
 	long		last_meal_time;
 	long		meal_count;
 	bool		is_full;
@@ -61,3 +61,4 @@ int				is_valid_input(char **argv);
 long int		ft_atol(char *str);
 void			error_n_exit(int msg);
 void			init_table(int argc, char **argv, t_data *data);
+void			init_philo(t_data *data);
