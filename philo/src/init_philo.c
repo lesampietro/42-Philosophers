@@ -38,12 +38,18 @@ static void	init_forks(t_data *data)
 
 	data->forks = malloc(sizeof(t_fork) * data->philo_nbr);
 	if (!data->forks)
+	{
+		free_memory(data);
 		error_n_exit("Error: Fork memory allocation failed\n", 0);
+	}
 	i = 0;
 	while (i < data->philo_nbr)
 	{
 		if (pthread_mutex_init(&data->forks[i].fork, NULL))
+		{
+			free_memory(data);
 			error_n_exit("Error: Mutex attribution failed\n", 0);
+		}
 		data->forks[i].fork_id = i;
 		i++;
 	}
@@ -51,18 +57,22 @@ static void	init_forks(t_data *data)
 
 void	init_philo(t_data *data)
 {
-	struct	timeval tv;
-
-struct timeval	tv;
+	struct timeval	tv;
 
 	if(pthread_mutex_init(&data->meal_mutex, NULL) \
 		|| pthread_mutex_init(&data->end_mutex, NULL) \
 		|| pthread_mutex_init(&data->print_mutex, NULL))
+	{
+		free_memory(data);
 		error_n_exit("Error: Mutex protection init failed\n", 0);
+	}
 	init_forks(data);
 	init_philosophers(data);
 	assign_forks_to_philos(data);
 	if (gettimeofday(&tv, NULL))
+	{
+		free_memory(data);
 		error_n_exit("Error: not able to get start time\n", 0);
+	}
 	data->start_time = tv.tv_sec * 1e6 + tv.tv_usec;
 }

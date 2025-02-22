@@ -21,11 +21,13 @@ static bool	is_philo_dead(t_philo *philo)
 {
 	long	time_since_meal;
 
+	pthread_mutex_lock(&philo->data->meal_mutex);
 	time_since_meal = get_time_since_last_meal(philo);
+	pthread_mutex_unlock(&philo->data->meal_mutex);
 	if (time_since_meal > philo->data->time_to_die)
 	{
-		philo->data->end_simulation = true;
-		printf(BLU"%ld %d died\n"RST, get_elapsed_time(philo->data) / 1000, philo->philo_id);
+		check_simulation_end(philo->data);
+		safe_print(philo->data, philo->philo_id, RED"died"RST);
 		return (true);
 	}
 	return (false);
@@ -33,16 +35,24 @@ static bool	is_philo_dead(t_philo *philo)
 
 static bool	is_philo_full(t_data *data)
 {
-	int	i;
+	int		i;
+	bool	all_full;
 
 	i = 0;
+	all_full = true;
+	pthread_mutex_lock(&data->meal_mutex);
 	while (i < data->philo_nbr)
 	{
 		if (!data->philos[i].is_full)
-			return (false);
+		{
+			all_full = false;
+			break ;
+		}
 		i++;
 	}
-	data->end_simulation = true;
+	pthread_mutex_unlock(&data->meal_mutex);
+	if (all_full)
+		check_simulation_end(data);
 	return (true);
 }
 

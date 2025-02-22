@@ -68,6 +68,8 @@ void			init_simulation(t_data *data);
 void			*philosopher_routine(void *arg);
 void			*monitor_routine(void *arg);
 void			start_dinner(t_data *data);
+bool			is_simulation_end(t_data *data);
+void			check_simulation_end(t_data *data);
 
 //TIME UTILITY FUNCTIONS
 long			get_current_time(void);
@@ -77,3 +79,8 @@ void			precise_sleep(long duration);
 
 //GENERAL UTILITY FUNCTIONS
 void			error_n_exit(char *msg, int msg_type);
+void			safe_print(t_data *data, int philo_id, char *msg);
+
+//CLEANUP FUNCTIONS
+void			free_memory(t_data *data);
+void			cleanup_routine(t_data *data);

@@ -6,11 +6,12 @@ INCLUDES= -I philo/includes
 BIN= ./bin/
 SRC_D= ./philo/src/
 SRC=	main.c \
-		get_time.c \
-		init_philo.c \
-		monitor_routine.c \
 		parse_input.c \
+		init_philo.c \
+		get_time.c \
 		philo_routine.c \
+		monitor_routine.c \
+		cleaning_routine.c \
 		utils.c
 
 SRC:= $(addprefix $(SRC_D), $(SRC))
@@ -25,7 +26,7 @@ $(BIN)%.o: $(SRC_D)%.c
 
 $(NAME): $(OBJS)
 	@echo "Creating $(NAME)"
-	$(CC) $(OBJS) $(INCLUDES) -o $(NAME)
+	$(CC) $(OBJS) $(INCLUDES) $(CFLAGS) -o $(NAME)
 
 clean:
 	rm -rf $(BIN)

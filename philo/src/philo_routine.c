@@ -5,36 +5,38 @@ static void	take_forks(t_philo *philo)
 	if (philo->left_fork->fork_id < philo->right_fork->fork_id)
 	{
 		pthread_mutex_lock(&philo->left_fork->fork);
-		printf("%ld %d has taken a fork\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+		safe_print(philo->data, philo->philo_id, "has taken a fork");
 		pthread_mutex_lock(&philo->right_fork->fork);
-		printf("%ld %d has taken a fork\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+		safe_print(philo->data, philo->philo_id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->right_fork->fork);
-		printf("%ld %d has taken a fork\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+		safe_print(philo->data, philo->philo_id, "has taken a fork");
 		pthread_mutex_lock(&philo->left_fork->fork);
-		printf("%ld %d has taken a fork\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+		safe_print(philo->data, philo->philo_id, "has taken a fork");
 	}
 }
 
 static void	eat(t_philo *philo)
 {
-	printf("%ld %d is eating\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+	pthread_mutex_lock(&philo->data->meal_mutex); //the thread that locks the mutex is the only one that can unlock it, and access any line of code between the lock and unlock lines;
 	philo->last_meal_time = get_current_time();
-	precise_sleep(philo->data->time_to_eat);
+	safe_print(philo->data, philo->philo_id, "is eating");
 	philo->meal_count++;
 	if (philo->data->max_meals != -1 && philo->meal_count >= philo->data->max_meals)
 		philo->is_full = true;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
+	precise_sleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(&philo->left_fork->fork);
 	pthread_mutex_unlock(&philo->right_fork->fork);
 }
 
 static void sleep_n_think(t_philo *philo)
 {
-	printf("%ld %d is sleeping\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+	safe_print(philo->data, philo->philo_id, "is sleeping");
 	precise_sleep(philo->data->time_to_sleep);
-	printf("%ld %d is thinking\n", get_elapsed_time(philo->data) / 1000, philo->philo_id);
+	safe_print(philo->data, philo->philo_id, "is thinking");
 }
 
 void	*philosopher_routine(void *arg)
@@ -44,7 +46,7 @@ void	*philosopher_routine(void *arg)
 	philo = (t_philo *)arg; //just a type casting, because the argument passed is void pointer
 	if (philo->philo_id % 2)
 		precise_sleep(1000);
-	while (!philo->data->end_simulation && !philo->is_full)
+	while (!is_simulation_end(philo->data))
 	{
 		take_forks(philo);
 		eat(philo);
