@@ -1,82 +1,69 @@
 #include "../includes/philo.h"
 
-bool	is_simulation_end(t_data *data)
+int	is_philo_dead(t_philo *philo)
 {
-	bool is_end;
+	int is_end;
 
-	pthread_mutex_lock(&data->end_mutex);
-	is_end = data->end_simulation;
-	pthread_mutex_unlock(&data->end_mutex);
+	pthread_mutex_lock(&philo->data->end_mutex);
+	is_end = philo->data->end_simulation;
+	pthread_mutex_unlock(&philo->data->end_mutex);
 	return (is_end);
 }
 
-void	check_simulation_end(t_data *data)
+int	is_philo_full(t_philo *philo)
 {
-	pthread_mutex_lock(&data->end_mutex);
-	data->end_simulation = true;
-	pthread_mutex_unlock(&data->end_mutex);
+	if (philo->data->max_meals == -1)
+		return (0);
+	else
+	{
+		if (philo->meal_count < philo->data->max_meals)
+			return (0);
+	}
+	return (1);
 }
 
-static bool	is_philo_dead(t_philo *philo)
+int	check_philos(t_philo *philo)
 {
-	long	time_since_meal;
-
-	pthread_mutex_lock(&philo->data->meal_mutex);
-	time_since_meal = get_time_since_last_meal(philo);
-	pthread_mutex_unlock(&philo->data->meal_mutex);
-	if (time_since_meal > philo->data->time_to_die)
-	{
-		check_simulation_end(philo->data);
-		safe_print(philo->data, philo->philo_id, RED"died"RST);
-		return (true);
-	}
-	return (false);
-}
-
-static bool	is_philo_full(t_data *data)
-{
-	int		i;
-	bool	all_full;
-
-	i = 0;
-	all_full = true;
-	pthread_mutex_lock(&data->meal_mutex);
-	while (i < data->philo_nbr)
-	{
-		if (!data->philos[i].is_full)
-		{
-			all_full = false;
-			break ;
-		}
-		i++;
-	}
-	pthread_mutex_unlock(&data->meal_mutex);
-	if (all_full)
-		check_simulation_end(data);
-	return (all_full);
+	if (is_philo_full(philo) || is_philo_dead(philo))
+		return (1);
+	return (0);
 }
 
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;
 	int		i;
+	long	last_meal_backup;
 
+	i = 0;
 	data = (t_data *)arg;
-	while (!data->end_simulation)
+	while (i < data->philo_nbr)
 	{
-		i = 0;
-		while (i < data->philo_nbr)
+		// if(!check_philos(&data->philos[i]))
+		// 	continue;
+		// printf("philo %d died\n", data->philos[i].id);
+		// safe_print(data, data->philos[i].id, "died");
+		pthread_mutex_lock(&data->philos[i].meal_mutex);
+		last_meal_backup = (long)(get_current_time - data->philos[i].last_meal_time);
+		pthread_mutex_unlock(&data->philos[i].meal_mutex);
+		if (last_meal_backup > data->time_to_die)
 		{
-			if (is_philo_dead(&data->philos[i]))
-				return (NULL);
-			i++;
+			pthread_mutex_lock(&data->end_mutex);
+			data->end_simulation = true;
+			pthread_mutex_unlock(&data->end_mutex);
+			safe_print(data, data->philos[i].id, "died");
+			return (NULL);
 		}
-		if (data->max_meals != -1)
-		{
-			if (is_philo_full(data))
-				return (NULL);
-		}
-		usleep(1000);
+		i++;
 	}
 	return (NULL);
+}
+
+void	init_monitor(t_data *data)
+{
+	pthread_t	monitor_id;
+
+	if (pthread_create(&monitor_id, NULL, &monitor_routine, data))
+		error_n_exit("Error: Thread creation failed\n", 0, data);
+	pthread_join(monitor_id, NULL);
 }

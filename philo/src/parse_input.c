@@ -2,19 +2,18 @@
 
 static bool	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' \
-			|| c == '\v' || c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r');
 }
 
-static bool	ft_isdigit(int c)
+static bool ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-long int	ft_atol(char *str)
+long int ft_atol(char *str)
 {
-	long int	res;
-	int			sign;
+	long int res;
+	int sign;
 
 	res = 0;
 	sign = 1;
@@ -34,17 +33,17 @@ long int	ft_atol(char *str)
 	return (res * sign);
 }
 
-static int	is_integer(char *str)
+static int is_integer(char *str)
 {
-	int	i;
-	int	len;
+	int i;
+	int len;
 
 	i = 0;
 	len = 0;
 	if (!str[i])
 		return (1);
 	while (str[i] && ft_isspace(str[i]))
-			i++;
+		i++;
 	if (!str[i])
 		return (1);
 	if (str[i] == '+' || str[i] == '-')
@@ -63,10 +62,10 @@ static int	is_integer(char *str)
 	return (0);
 }
 
-int	is_valid_input(char **argv)
+int is_valid_input(char **argv)
 {
-	char	**tmp;
-	long	value;
+	char **tmp;
+	long value;
 
 	value = 0;
 	tmp = argv + 1;

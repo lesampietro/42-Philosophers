@@ -2,16 +2,10 @@
 
 long	get_current_time(void)
 {
-	struct timeval	tv;
+	struct timeval	time;
 
-	if (gettimeofday(&tv, NULL))
-		error_n_exit("Error: not able to get current time", 0);
-	return ((tv.tv_sec * 1e6) + tv.tv_usec);
-}
-
-long	get_elapsed_time(t_data *data)
-{
-	return (get_current_time() - data->start_time);
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 long	get_time_since_last_meal(t_philo *philo)

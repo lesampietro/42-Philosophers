@@ -1,13 +1,13 @@
 # Variables
-NAME= philosophers
+NAME= philo
 CC= cc
-CFLAGS= -Wall -Wextra -Werror -pthread
+CFLAGS= -Wall -Wextra -Werror -pthread -g3
 INCLUDES= -I philo/includes
 BIN= ./bin/
 SRC_D= ./philo/src/
 SRC=	main.c \
 		parse_input.c \
-		init_philo.c \
+		init_philos.c \
 		get_time.c \
 		philo_routine.c \
 		monitor_routine.c \

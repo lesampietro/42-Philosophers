@@ -1,6 +1,6 @@
 #include "../includes/philo.h"
 
-void	error_n_exit(char *msg, int msg_type)
+void	error_n_exit(char *msg, int msg_type, t_data *data)
 {
 	if (msg == NULL && msg_type == 1)
 	{
@@ -12,13 +12,23 @@ void	error_n_exit(char *msg, int msg_type)
 		printf(MAG"%s"RST, msg);
 	else
 		printf(MAG"Unknown Error\n"RST);
+	free_memory(data);
 	exit(1);
 }
 
-void	safe_print(t_data *data, int philo_id, char *msg)
+void	safe_print(t_data *data, int id, char *msg)
 {
+	long	current_time;
+
+	if(is_philo_dead(data->philos))
+		return ;
 	pthread_mutex_lock(&data->print_mutex);
-	if (!is_simulation_end(data))
-		printf("%ld %d %s\n", get_elapsed_time(data) / 1000, philo_id, msg);
+	current_time = get_current_time() - data->philos->start_time;
+	if (check_philos(data->philos))
+	{
+		printf("%ld ", current_time);
+		printf(MAG"%d "RST, id);
+		printf("%s\n", msg);
+	}
 	pthread_mutex_unlock(&data->print_mutex);
 }
