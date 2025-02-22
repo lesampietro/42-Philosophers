@@ -13,11 +13,11 @@ void	init_table(int argc, char **argv, t_data *data)
 		free_memory(data);
 		error_n_exit("Error: Number of philosophers must be between 1 and 200\n", 0);
 	}
-	data->time_to_die = ft_atol(argv[2]) * 1e3;
-	data->time_to_eat = ft_atol(argv[3]) * 1e3;
-	data->time_to_sleep = ft_atol(argv[4]) * 1e3;
-	if (data->time_to_die < 6e4 || data->time_to_eat < 6e4 \
-		|| data->time_to_sleep < 6e4)
+	data->time_to_die = ft_atol(argv[2]) * 1000;
+	data->time_to_eat = ft_atol(argv[3]) * 1000;
+	data->time_to_sleep = ft_atol(argv[4]) * 1000;
+	if (data->time_to_die < 60000 || data->time_to_eat < 60000 \
+		|| data->time_to_sleep < 60000)
 	{
 		free_memory(data);
 		error_n_exit("Error: Time to die, eat and sleep must be > 60ms\n", 0);

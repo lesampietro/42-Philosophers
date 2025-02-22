@@ -24,7 +24,7 @@ static void	init_philosophers(t_data *data)
 	while (i < data->philo_nbr)
 	{
 		data->philos[i].philo_id = i + 1;
-		data->philos[i].last_meal_time = 0;
+		data->philos[i].last_meal_time = data->start_time;
 		data->philos[i].meal_count = 0;
 		data->philos[i].is_full = false;
 		data->philos[i].data = data;

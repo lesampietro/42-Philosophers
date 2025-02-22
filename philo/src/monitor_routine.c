@@ -53,7 +53,7 @@ static bool	is_philo_full(t_data *data)
 	pthread_mutex_unlock(&data->meal_mutex);
 	if (all_full)
 		check_simulation_end(data);
-	return (true);
+	return (all_full);
 }
 
 void	*monitor_routine(void *arg)

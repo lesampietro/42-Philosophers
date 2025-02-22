@@ -20,8 +20,8 @@ static void	take_forks(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->meal_mutex); //the thread that locks the mutex is the only one that can unlock it, and access any line of code between the lock and unlock lines;
 	philo->last_meal_time = get_current_time();
+	pthread_mutex_lock(&philo->data->meal_mutex); //the thread that locks the mutex is the only one that can unlock it, and access any line of code between the lock and unlock lines;
 	safe_print(philo->data, philo->philo_id, "is eating");
 	philo->meal_count++;
 	if (philo->data->max_meals != -1 && philo->meal_count >= philo->data->max_meals)
