@@ -27,14 +27,11 @@ void	drop_forks(t_philo *philo)
 
 static void	eat(t_philo *philo)
 {
-	if (philo->data->max_meals != -1)
-		philo->meal_count++;
 	pthread_mutex_lock(&philo->meal_mutex); //the thread that locks the mutex is the only one that can unlock it, and access any line of code between the lock and unlock lines;
 	philo->last_meal_time = get_current_time();
+	philo->meal_count++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	safe_print(philo->data, philo->id, "is eating");
-	// if (philo->data->max_meals != -1 && philo->meal_count >= philo->data->max_meals)
-	// 	philo->is_full = true;
 	precise_sleep(philo->data->time_to_eat);
 	drop_forks(philo);
 }

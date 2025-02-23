@@ -17,8 +17,13 @@ int	is_philo_full(t_philo *philo)
 		return (0);
 	else
 	{
-		if (philo->meal_count < philo->data->max_meals)
+		pthread_mutex_lock(&philo->meal_mutex);
+		if (philo->meal_count <= philo->data->max_meals)
+		{
+			pthread_mutex_unlock(&philo->meal_mutex);
 			return (0);
+		}
+		pthread_mutex_unlock(&philo->meal_mutex);
 	}
 	return (1);
 }
