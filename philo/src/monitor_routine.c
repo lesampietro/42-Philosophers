@@ -2,8 +2,9 @@
 
 int	is_philo_dead(t_philo *philo)
 {
-	int is_end;
+	bool	is_end;
 
+	is_end = 0;
 	pthread_mutex_lock(&philo->data->end_mutex);
 	is_end = philo->data->end_simulation;
 	pthread_mutex_unlock(&philo->data->end_mutex);
@@ -29,32 +30,43 @@ int	check_philos(t_philo *philo)
 	return (0);
 }
 
-void	*monitor_routine(void *arg)
+void	monitoring(t_data *data)
 {
-	t_data	*data;
-	int		i;
-	long	last_meal_backup;
+	int i;
+	long last_meal_backup;
 
 	i = 0;
-	data = (t_data *)arg;
 	while (i < data->philo_nbr)
 	{
-		// if(!check_philos(&data->philos[i]))
-		// 	continue;
-		// printf("philo %d died\n", data->philos[i].id);
-		// safe_print(data, data->philos[i].id, "died");
 		pthread_mutex_lock(&data->philos[i].meal_mutex);
-		last_meal_backup = (long)(get_current_time - data->philos[i].last_meal_time);
+		last_meal_backup = get_current_time() - data->philos[i].last_meal_time;
 		pthread_mutex_unlock(&data->philos[i].meal_mutex);
 		if (last_meal_backup > data->time_to_die)
 		{
 			pthread_mutex_lock(&data->end_mutex);
 			data->end_simulation = true;
+			printf(RED"%ld ", (get_current_time() - data->philos->start_time));
+			printf("%d died\n"RST, data->philos[i].id);
 			pthread_mutex_unlock(&data->end_mutex);
-			safe_print(data, data->philos[i].id, "died");
-			return (NULL);
+			return ;
 		}
 		i++;
+	}
+}
+
+void	*monitor_routine(void *arg)
+{
+	t_data	*data;
+	int		i;
+
+	i = 0;
+	data = (t_data *)arg;
+	while (1)
+	{
+		if(check_philos(&data->philos[i]))
+			return (NULL);
+		monitoring(data);
+		usleep(1000);
 	}
 	return (NULL);
 }

@@ -70,8 +70,6 @@ void			init_simulation(t_data *data);
 void			*philosopher_routine(void *arg);
 void			*monitor_routine(void *arg);
 void			start_dinner(t_data *data);
-// bool			is_simulation_end(t_data *data);
-// void			check_simulation_end(t_data *data);
 int				is_philo_dead(t_philo *philo);
 int				is_philo_full(t_philo *philo);
 void			handle_single_philo(t_data *data);

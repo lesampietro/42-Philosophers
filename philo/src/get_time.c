@@ -8,11 +8,6 @@ long	get_current_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-long	get_time_since_last_meal(t_philo *philo)
-{
-	return (get_current_time() - philo->last_meal_time);
-}
-
 void	precise_sleep(long duration)
 {
 	long	start_time;

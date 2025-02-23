@@ -26,7 +26,9 @@ static void	init_philosophers(t_data *data)
 		if (data->philo_nbr == 1)
 			pthread_create(&data->philos[i].tid, NULL, &one_philo_routine, &data->philos[i]);
 		else
+		{
 			pthread_create(&data->philos[i].tid, NULL, &philosopher_routine, &data->philos[i]);
+		}
 		i++;
 	}
 }

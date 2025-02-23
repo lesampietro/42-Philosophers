@@ -5,6 +5,7 @@ static void	take_forks(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->fork);
+		// printf("philo %d has taken a fork\n", philo->id);
 		safe_print(philo->data, philo->id, "has taken a fork");
 		pthread_mutex_lock(&philo->right_fork->fork);
 		safe_print(philo->data, philo->id, "has taken a fork");
@@ -20,16 +21,8 @@ static void	take_forks(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_unlock(&philo->left_fork->fork);
-		pthread_mutex_unlock(&philo->right_fork->fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->right_fork->fork);
-		pthread_mutex_unlock(&philo->left_fork->fork);
-	}
+	pthread_mutex_unlock(&philo->right_fork->fork);
+	pthread_mutex_unlock(&philo->left_fork->fork);
 }
 
 static void	eat(t_philo *philo)
@@ -62,14 +55,18 @@ void	*philosopher_routine(void *arg)
 
 	i = 0;
 	philo = (t_philo *)arg; //just a type casting, because the argument passed is void pointer
-	while (check_philos(philo))
+	while (!check_philos(philo))
 	{
 		f[i++](philo);
 		if (i == 3)
 			i = 0;
+		// take_forks(philo);
+		// eat(philo);
+		// sleep_n_think(philo);
+		// i++;
 	}
-	// if (i == 1)
-	// 	drop_forks(philo);
+	if (i == 1)
+		drop_forks(philo);
 	return (NULL);
 }
 
@@ -84,26 +81,3 @@ void	*one_philo_routine(void *arg)
 	pthread_mutex_unlock(&philo->left_fork->fork);
 	return (NULL);
 }
-
-// void	start_dinner(t_data *data)
-// {
-// 	int			i;
-// 	// pthread_t	monitor_id;
-
-// 	i = 0;
-// 	// if (pthread_create(&monitor_id, NULL, &monitor_routine, data))
-// 	// 	error_n_exit("Error: Monitor thread creation failed\n", 0, data);
-// 	while (i < data->philo_nbr)
-// 	{
-// 		if (pthread_create(&data->philos[i].tid, NULL, &philosopher_routine, &data->philos[i])) //last parameter passes the address of the philosopher
-// 			error_n_exit("Error: Thread creation failed\n", 0, data);
-// 		i++;
-// 	}
-// 	// i = 0;
-// 	// while (i < data->philo_nbr)
-// 	// {
-// 	// 	if (pthread_join(data->philos[i].tid, NULL))
-// 	// 		error_n_exit("Error: Thread joining failed\n", 0, data);
-// 	// 	i++;
-// 	// }
-// }

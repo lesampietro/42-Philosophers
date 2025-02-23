@@ -32,7 +32,7 @@ void	cleanup_routine(t_data *data)
 	i = 0;
 	while (i < data->philo_nbr)
 	{
-		pthread_join(data->philos[i].id, NULL);
+		pthread_join(data->philos[i].tid, NULL);
 		i++;
 	}
 	destroy_mutexes(data);

@@ -1,5 +1,5 @@
 # Variables
-NAME= philo
+NAME= philosophers
 CC= cc
 CFLAGS= -Wall -Wextra -Werror -pthread -g3
 INCLUDES= -I philo/includes

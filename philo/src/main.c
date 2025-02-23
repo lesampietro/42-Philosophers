@@ -32,10 +32,6 @@ int	main(int argc, char **argv)
 	init_table(argv, data);
 	init_philos(data);
 	init_monitor(data);
-	// return (0);
-	// if (data->philo_nbr == 1)
-	// 	handle_single_philo(data);
-	// start_dinner(data);
 	// while (!check_philo_death(data))
 	// 		;
 	cleanup_routine(data);
