@@ -1,7 +1,7 @@
 # Variables
 NAME= philosophers
 CC= cc
-CFLAGS= -Wall -Wextra -Werror -pthread -g3
+CFLAGS= -Wall -Wextra -Werror -pthread -g3 -fsanitize=thread
 INCLUDES= -I philo/includes
 BIN= ./bin/
 SRC_D= ./philo/src/

@@ -44,7 +44,7 @@ static void sleep_n_think(t_philo *philo)
 	safe_print(philo->data, philo->id, "is sleeping");
 	precise_sleep(philo->data->time_to_sleep);
 	safe_print(philo->data, philo->id, "is thinking");
-	usleep(100);
+	usleep(1000);
 }
 
 void	*philosopher_routine(void *arg)
