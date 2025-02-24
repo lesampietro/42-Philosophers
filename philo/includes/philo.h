@@ -64,7 +64,7 @@ int				is_valid_input(char **argv);
 long int		ft_atol(char *str);
 
 //INIT and ROUTINE FUNCTIONS
-void			init_table(char **argv, t_data *data);
+void			init_table(int argc, char **argv, t_data *data);
 void			init_philos(t_data *data);
 void			init_simulation(t_data *data);
 void			*philosopher_routine(void *arg);
@@ -80,9 +80,7 @@ int				check_philo_death(t_data *data);
 
 //TIME UTILITY FUNCTIONS
 long			get_current_time(void);
-long			get_elapsed_time(t_data *data);
-long			get_time_since_last_meal(t_philo *philo);
-void			precise_sleep(long duration);
+void			precise_sleep(long duration, t_data *data);
 
 //GENERAL UTILITY FUNCTIONS
 void			error_n_exit(char *msg, int msg_type, t_data *data);

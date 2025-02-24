@@ -1,6 +1,6 @@
 #include "../includes/philo.h"
 
-void	init_table(char **argv, t_data *data)
+void	init_table(int argc, char **argv, t_data *data)
 {
 	data->philo_nbr = ft_atol(argv[1]);
 	if (data->philo_nbr > 200 || data->philo_nbr < 1)
@@ -11,7 +11,7 @@ void	init_table(char **argv, t_data *data)
 	if (data->time_to_die < 60 || data->time_to_eat < 60 \
 		|| data->time_to_sleep < 60)
 		error_n_exit("Error: Time to die, eat and sleep must be over 60ms\n", 0, data);
-	if (argv[5] && argv[5] > 0)
+	if (argc == 6)
 		data->max_meals = ft_atol(argv[5]);
 	else
 		data->max_meals = -1;
@@ -29,7 +29,7 @@ int	main(int argc, char **argv)
 		error_n_exit(NULL, 1, data);
 	if (is_valid_input(argv))
 		error_n_exit("Error: Invalid arguments. All inputs must be in the positive integer scope\n", 0, data);
-	init_table(argv, data);
+	init_table(argc, argv, data);
 	init_philos(data);
 	init_monitor(data);
 	// while (!check_philo_death(data))

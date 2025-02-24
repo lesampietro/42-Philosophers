@@ -5,7 +5,6 @@ static void	take_forks(t_philo *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->left_fork->fork);
-		// printf("philo %d has taken a fork\n", philo->id);
 		safe_print(philo->data, philo->id, "has taken a fork");
 		pthread_mutex_lock(&philo->right_fork->fork);
 		safe_print(philo->data, philo->id, "has taken a fork");
@@ -25,45 +24,42 @@ void	drop_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->left_fork->fork);
 }
 
-static void	eat(t_philo *philo)
+static void	philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex); //the thread that locks the mutex is the only one that can unlock it, and access any line of code between the lock and unlock lines;
 	philo->last_meal_time = get_current_time();
 	philo->meal_count++;
 	pthread_mutex_unlock(&philo->meal_mutex);
 	safe_print(philo->data, philo->id, "is eating");
-	precise_sleep(philo->data->time_to_eat);
+	precise_sleep(philo->data->time_to_eat, philo->data);
 	drop_forks(philo);
 }
 
-static void sleep_n_think(t_philo *philo)
+static void philo_sleep(t_philo *philo)
 {
 	safe_print(philo->data, philo->id, "is sleeping");
-	precise_sleep(philo->data->time_to_sleep);
-	safe_print(philo->data, philo->id, "is thinking");
-	usleep(1000);
+	precise_sleep(philo->data->time_to_sleep, philo->data);
 }
 
 void	*philosopher_routine(void *arg)
 {
-	int			i;
+	// int			i;
 	t_philo		*philo;
-	static void	(*f[3])(t_philo *) = {take_forks, eat, sleep_n_think};
+	// static void	(*f[3])(t_philo *) = {take_forks, eat, sleep_n_think};
 
-	i = 0;
+	// i = 0;
 	philo = (t_philo *)arg; //just a type casting, because the argument passed is void pointer
 	while (!check_philos(philo))
 	{
-		f[i++](philo);
-		if (i == 3)
-			i = 0;
-		// take_forks(philo);
-		// eat(philo);
-		// sleep_n_think(philo);
-		// i++;
+
+		take_forks(philo);
+		if (!check_philos(philo))
+			philo_eat(philo);
+		if (!check_philos(philo))
+			philo_sleep(philo);
+		safe_print(philo->data, philo->id, "is thinking");
+		usleep(2000);
 	}
-	if (i == 1)
-		drop_forks(philo);
 	return (NULL);
 }
 
@@ -74,7 +70,7 @@ void	*one_philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	pthread_mutex_lock(&philo->left_fork->fork);
 	safe_print(philo->data, philo->id, "has taken a fork");
-	precise_sleep(philo->data->time_to_die);
+	precise_sleep(philo->data->time_to_die, philo->data);
 	pthread_mutex_unlock(&philo->left_fork->fork);
 	return (NULL);
 }
