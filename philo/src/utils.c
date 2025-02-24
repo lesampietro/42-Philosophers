@@ -24,7 +24,7 @@ void	safe_print(t_data *data, int id, char *msg)
 		return ;
 	pthread_mutex_lock(&data->print_mutex);
 	current_time = get_current_time() - data->philos->start_time;
-	if (!check_philos(data->philos))
+	if (!is_philo_dead(data->philos))
 	{
 		printf("%ld ", current_time);
 		printf(MAG"%d "RST, id);

@@ -36,7 +36,6 @@ struct s_philo
 	long		start_time;
 	long		last_meal_time;
 	long		meal_count;
-	// bool		is_full;
 	t_mutex		meal_mutex;
 	t_fork		*left_fork;
 	t_fork		*right_fork;
@@ -51,7 +50,7 @@ struct s_data
 	long		time_to_eat;
 	long		time_to_sleep;
 	long		max_meals;
-	// long		start_time;
+	int			all_full;
 	bool		end_simulation; //true either by philo death or by meal limit
 	t_mutex		print_mutex; // ensures atomic printing
 	t_mutex		end_mutex; //protects end_simulation flag

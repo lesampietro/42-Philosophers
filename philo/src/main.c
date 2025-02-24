@@ -16,6 +16,7 @@ void	init_table(int argc, char **argv, t_data *data)
 	else
 		data->max_meals = -1;
 	data->end_simulation = false;
+	data->all_full = 0;
 }
 
 int	main(int argc, char **argv)
@@ -32,8 +33,6 @@ int	main(int argc, char **argv)
 	init_table(argc, argv, data);
 	init_philos(data);
 	init_monitor(data);
-	// while (!check_philo_death(data))
-	// 		;
 	cleanup_routine(data);
 	return (0);
 }
